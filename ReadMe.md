@@ -27,3 +27,5 @@
         "token": "Bearer bef7f17ec4bcac947b439079560e8f25669b18cfe0b16014197fa42e406c7b86"
     }
 }
+
+https://documenter.getpostman.com/view/6899786/S11RLbVV

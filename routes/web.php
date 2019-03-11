@@ -14,3 +14,29 @@
 $router->get('/', function () use ($router) {
     return $router->app->version();
 });
+
+// User Routes
+$router->post('api/register', 'RegisterController@store');
+
+$router->post('api/login', 'LoginController@login');
+
+$router->get('api/profile', 'UserController@profile');
+
+$router->post('api/logout', 'LogoutController@logout');
+
+
+// Goal Routes
+// $router->group(['prefix' => 'api'], function () use ($router) {
+//     $router->get('goals', ['uses' => 'GoalController@showAll']);
+
+//     $router->get('goals/{id}', ['uses' => 'GoalController@showOne']);
+
+//     $router->post('goals', ['uses' => 'GoalController@create']);
+
+//     $router->put('goals/{id}', ['uses' => 'GoalController@update']);
+
+//     $router->delete('goals/{id}', ['uses' => 'GoalController@destroy']);
+
+// });
+
+// Task Routes

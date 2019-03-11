@@ -32,7 +32,22 @@ class AuthServiceProvider extends ServiceProvider
 
         $this->app['auth']->viaRequest('api', function ($request) {
             if ($request->input('api_token')) {
+
                 return User::where('api_token', $request->input('api_token'))->first();
+                
+            }  else if($request->header('Authorization')) {
+                
+                //get the value of the authorization header
+                $bearer = $request->header('Authorization');
+
+                //split string into array ot two values
+                $exploded_bearer = explode(" ", $bearer);
+                
+                //get the second element of the array which is the token
+                $token = $exploded_bearer[1];
+                 
+                //check if user with token exist
+                return User::where('api_token', $token)->first();
             }
         });
     }

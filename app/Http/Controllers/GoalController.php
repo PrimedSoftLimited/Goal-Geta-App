@@ -41,7 +41,6 @@ class GoalController extends Controller
         $this->validate($request, [
             'title' => 'required',
             'description' => 'required',
-            'completed' => '',
             'start'=> 'required',
             'finish'=> 'required',
         ]);
@@ -51,10 +50,10 @@ class GoalController extends Controller
         $token = hash('sha256', $generateRandomString);
 
         $goal = new Goal();
-
+        
+        $goal->user_id = Auth::user()->id;
         $goal->title = $request->input('title');
         $goal->description = $request->input('description');
-        $goal->completed = $request->input('completed');
         $goal->start = $request->input('start');
         $goal->finish = $request->input('finish');
 

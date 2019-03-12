@@ -29,4 +29,10 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
     protected $hidden = [
         'password', 'api_token',
     ];
+
+    public function goals()
+    {
+        return $this->hasMany(Goal::class);
+    }
+
 }

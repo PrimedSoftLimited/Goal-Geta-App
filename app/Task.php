@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 
-class Goal extends Model implements AuthenticatableContract, AuthorizableContract
+class Task extends Model implements AuthenticatableContract, AuthorizableContract
 {
     use Authenticatable, Authorizable;
 
@@ -18,21 +18,12 @@ class Goal extends Model implements AuthenticatableContract, AuthorizableContrac
      * @var array
      */
     protected $fillable = [
-        'title', 'description', 'completed', 'start', 'finish',
+        'description', 'completed',
     ];
 
-    /**
-     * The attributes excluded from the model's JSON form.
-     *
-     * @var array
-     */
-    protected $hidden = [
-        // 'password',
-    ];
-
-    public function user()
+    public function goal()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(Goal::class);
     }
 
 }

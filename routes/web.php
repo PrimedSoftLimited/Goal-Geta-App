@@ -44,6 +44,8 @@ $router->group(['prefix' => 'api'], function () use ($router) {
 
 $router->group(['prefix' => 'api'], function () use ($router) {
     
-    $router->put('tasks/{id}', ['uses' => 'GoalTasksController@update']);
+    $router->post('goals/{id}/tasks', ['uses' => 'GoalTasksController@store']);
+
+    $router->put('goals/tasks/{id}', ['uses' => 'GoalTasksController@update']);
 
 });

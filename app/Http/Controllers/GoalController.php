@@ -17,15 +17,17 @@ class GoalController extends Controller
      */
     public function __construct()
     {
-        //
+        $this->middleware('auth');
     }
 
     // The showAll method checks for all the goals.
     public function showAll()
     {
-        $goals = Goal::all();
+        $user = Auth::user();
 
-        return response()->json($goals);
+        $goals =  Goal::where('user_id', $user->id)->get();
+
+        return response()->json(['data' => ['success' => true, 'goals' => $goals], 200]);
     }
 
     // The showOne method checks for a single goal.

@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 // use Illuminate\Support\Str;
 
 use App\Task;
+use App\Goal;
 
 class GoalTasksController extends Controller
 {
@@ -20,7 +21,17 @@ class GoalTasksController extends Controller
         //
     }
 
-    public function update(Request $request)
+    public function store(Goal $goal)
+    {
+        $attributes = request()->validate(['description' => 'required|min:255']);
+
+        $goal->addTask($attributes);
+
+        return response()->json($goal);
+
+    }
+
+    public function update(Task $task)
     {
         $task->update([
             'completed' => request()->has('completed')

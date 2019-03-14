@@ -73,6 +73,7 @@ class GoalController extends Controller
     {
         $goal = Goal::findOrFail($id);
 
+        
         $goal->title = $request->input('title');
         $goal->description = $request->input('description');
         $goal->completed = $request->input('completed');

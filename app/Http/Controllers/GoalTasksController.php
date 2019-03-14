@@ -7,7 +7,6 @@ use Illuminate\Http\Request;
 // use Illuminate\Support\Str;
 
 use App\Task;
-use App\Goal;
 
 class GoalTasksController extends Controller
 {
@@ -19,6 +18,14 @@ class GoalTasksController extends Controller
     public function __construct()
     {
         //
+    }
+
+    public function show($goal_id)
+    {
+        $tasks =  Task::where('goal_id', $goal->id)->get();
+
+        return response()->json(['data' => ['success' => true, 'tasks' => $tasks], 200]);
+
     }
 
     public function store(Goal $goal)

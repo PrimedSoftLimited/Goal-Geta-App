@@ -20,9 +20,15 @@ $router->post('api/register', 'RegisterController@store');
 
 $router->post('api/login', 'LoginController@login');
 
+$router->post('api/logout', 'LogoutController@logout');
+
 $router->get('api/profile', 'UserController@profile');
 
-$router->post('api/logout', 'LogoutController@logout');
+$router->put('api/profile', 'UserController@update');
+
+$router->delete('api/profile', 'UserController@destroy');
+
+
 
 
 // Goal Routes
@@ -44,10 +50,14 @@ $router->group(['prefix' => 'api'], function () use ($router) {
 
 $router->group(['prefix' => 'api'], function () use ($router) {
 
-    $router->get('goals/{goal_id}/tasks', ['uses' => 'GoalTasksController@show']);
-    
-    $router->post('goals/{goal_id}/tasks', ['uses' => 'GoalTasksController@store']);
+    $router->get('goals/{goal_id}/tasks', ['uses' => 'GoalTasksController@showAll']);
 
-    $router->put('goals/tasks/{id}', ['uses' => 'GoalTasksController@update']);
+    $router->get('goals/{goal_id}/tasks/{task_id}', ['uses' => 'GoalTasksController@showOne']);
+    
+    $router->post('goals/{goal_id}/tasks', ['uses' => 'GoalTasksController@create']);
+
+    $router->put('goals/{goal_id}/tasks/{task_id}', ['uses' => 'GoalTasksController@update']);
+
+    $router->delete('goals/{goal_id}/tasks/{task_id}', ['uses' => 'GoalTasksController@destroy']);
 
 });

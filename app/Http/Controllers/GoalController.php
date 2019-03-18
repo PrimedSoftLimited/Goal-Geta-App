@@ -33,6 +33,7 @@ class GoalController extends Controller
     // The showOne method checks for a single goal.
     public function showOne($id)
     {
+        $user = Auth::user();
         
         return response()->json(Goal::findOrFail($id));;
     }
@@ -40,6 +41,8 @@ class GoalController extends Controller
     // The create method creates a new goal.
     public function create(Request $request)
     { 
+        $user = Auth::user();
+
         $this->validate($request, [
             'title' => 'required',
             'description' => 'required',
@@ -56,6 +59,7 @@ class GoalController extends Controller
         $goal->user_id = Auth::user()->id;
         $goal->title = $request->input('title');
         $goal->description = $request->input('description');
+        $goal->completed = $request->input('completed');
         $goal->start = $request->input('start');
         $goal->finish = $request->input('finish');
 
@@ -68,9 +72,11 @@ class GoalController extends Controller
 
     }
 
-    // The update method checks if an goal exists and allows the resource to be updated.
+    // The update method checks if a goal exists and allows the resource to be updated.
     public function update($id, Request $request)
     {
+        $user = Auth::user();
+
         $goal = Goal::findOrFail($id);
 
         
@@ -88,9 +94,10 @@ class GoalController extends Controller
         return response()->json($res, 200);
     }
 
-    // The delete method checks if an goal resource exists and deletes it.
+    // The delete method checks if a goal resource exists and deletes it.
     public function destroy($id, Request $request)
     {
+        $user = Auth::user();
 
         Goal::findOrFail($id)->delete();
 

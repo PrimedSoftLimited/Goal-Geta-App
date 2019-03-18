@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-// use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Auth;
 // use Illuminate\Support\Str;
 
 use App\Task;
@@ -17,25 +17,50 @@ class GoalTasksController extends Controller
      */
     public function __construct()
     {
-        //
+        
+        $this->middleware('auth');
+
     }
 
-    public function show($goal_id)
+    public function showAll($goal_id)
     {
+        $user = Auth::user();
+
         $tasks =  Task::where('goal_id', $goal->id)->get();
 
         return response()->json(['data' => ['success' => true, 'tasks' => $tasks], 200]);
 
     }
 
-    public function store(Goal $goal)
+    public function showOne($goal_id)
     {
-        $attributes = request()->validate(['description' => 'required|min:255']);
+        $user = Auth::user();
+        $task =  Task::where('goal_id', $goal->id)->first();
 
-        $goal->addTask($attributes);
+        return response()->json(['data' => ['success' => true, 'task' => $task], 200]);
 
-        return response()->json($goal);
+    }
 
+    public function create(Request $request)
+    {
+        $this->validate($request, [
+            'description' => 'required',
+            'start'=> 'required',
+            'finish'=> 'required',
+        ]);
+
+        $task = new Task();
+
+        $task->description = $request->input('description');
+        $task->start = $request->input('start');
+        $task->finish = $request->input('finish');
+
+        $task->save();
+
+        $res['status'] = True;
+        $res['data'] = "$task->description Created Successfully";
+        $res['task'] = $task;
+        return response()->json($res, 201);
     }
 
     public function update(Task $task)

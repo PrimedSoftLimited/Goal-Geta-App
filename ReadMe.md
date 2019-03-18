@@ -15,4 +15,5 @@ Middleware
 # Routes
 ## API routes are on path routes/web.
 
-## URL: https://documenter.getpostman.com/view/6899786/S17ow9ix
+# For more details visit this URL:  https://documenter.getpostman.com/view/6899786/S17ow9ix
+

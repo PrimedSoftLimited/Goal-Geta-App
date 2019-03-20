@@ -40,16 +40,4 @@ class Goal extends Model implements AuthenticatableContract, AuthorizableContrac
         return $this->hasMany(Task::class);
     }
 
-    // public function addTask($task)
-    // {
-    //     $task = Task::create([
-
-    //         'goal_id' => $this->id,
-
-    //         'description' => $description
-    //     ]);
-
-    //     $task->save();
-    // }
-
 }

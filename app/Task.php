@@ -18,7 +18,16 @@ class Task extends Model implements AuthenticatableContract, AuthorizableContrac
      * @var array
      */
     protected $fillable = [
-        'description', 'completed',
+       'title', 'description', 'start', 'finish',  'completed',
+    ];
+
+     /**
+     * The attributes excluded from the model's JSON form.
+     *
+     * @var array
+     */
+    protected $hidden = [
+       
     ];
 
     public function goal()

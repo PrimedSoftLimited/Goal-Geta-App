@@ -4,9 +4,12 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-// use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
+
 
 use App\Task;
+use App\Goal;
 
 class GoalTasksController extends Controller
 {
@@ -26,50 +29,101 @@ class GoalTasksController extends Controller
     {
         $user = Auth::user();
 
-        $tasks =  Task::where('goal_id', $goal->id)->get();
+        $tasks =  Task::where('goal_id', $goal_id)->get();
 
         return response()->json(['data' => ['success' => true, 'tasks' => $tasks], 200]);
 
     }
 
-    public function showOne($goal_id)
+    public function showOne($goal_id, $task_id)
     {
         $user = Auth::user();
-        $task =  Task::where('goal_id', $goal->id)->first();
+
+        $task =  Task::where('goal_id', $goal_id)->where('id', $task_id)->first();
 
         return response()->json(['data' => ['success' => true, 'task' => $task], 200]);
 
     }
 
-    public function create(Request $request)
+    public function store(Request $request, $goal_id)
     {
+        
+        $user = Auth::user();
+
         $this->validate($request, [
+            'title' => 'required',
             'description' => 'required',
             'start'=> 'required',
             'finish'=> 'required',
         ]);
 
-        $task = new Task();
+        try {
+            
+            $goal = Goal::where('id', $goal_id)->where('user_id', Auth::id())->first();
 
-        $task->description = $request->input('description');
-        $task->start = $request->input('start');
-        $task->finish = $request->input('finish');
+            $task = new Task();
+            
+            $task->goal_id = $goal->id;
+            $task->title = $request->input('title');
+            $task->description = $request->input('description');
+            $task->completed = $request->input('completed');
+            $task->start = $request->input('start');
+            $task->finish = $request->input('finish');
 
-        $task->save();
+            $task->save();
 
-        $res['status'] = True;
-        $res['data'] = "$task->description Created Successfully";
-        $res['task'] = $task;
-        return response()->json($res, 201);
+            $res['status'] = True;
+            $res['data'] = "$task->title Created Successfully";
+            $res['task'] = $task;
+            return response()->json($res, 200);
+
+        } catch (\Exception $e) {
+            
+            return response()->json(['error' => true, 'message' => 'request failed'], 409);
+        }
+
     }
 
-    public function update(Task $task)
+    public function update(Request $request, $task_id)
     {
-        $task->update([
-            'completed' => request()->has('completed')
-        ]);
+        
+        $user = Auth::user();
 
-        return back();
+        try {
+            
+            $task = Task::findOrFail($task_id);
+
+            $task->title = $request->input('title');
+            $task->description = $request->input('description');
+            $task->completed = $request->input('completed');
+            $task->start = $request->input('start');
+            $task->finish = $request->input('finish');
+
+            $task->save();
+
+            $res['status'] = True;
+            $res['data'] = "$task->title Updated Successfully";
+            $res['task'] = $task;
+            return response()->json($res, 200);
+
+        } catch (\Exception $e) {
+            
+            return response()->json(['error' => true, 'message' => 'request failed'], 409);
+        }
+
+        
+    }
+
+    public function destroy(Request $request, $task_id)
+    {
+        $user = Auth::user();
+
+        $task = Task::findOrFail($task_id);
+
+        $task->delete();
+
+        return response('Deleted Successfully', 200);
+
     }
  
 }

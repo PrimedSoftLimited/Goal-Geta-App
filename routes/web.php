@@ -16,16 +16,23 @@ $router->get('/', function () use ($router) {
 });
 
 // User Routes
+
+// Post request to Registration Route
 $router->post('api/register', 'RegisterController@store');
 
+// Post request to Login Route
 $router->post('api/login', 'LoginController@login');
 
+// Post request to Logout Route
 $router->post('api/logout', 'LogoutController@logout');
 
+// Get request to Profile 
 $router->get('api/profile', 'UserController@profile');
 
+// Put request to Profile
 $router->put('api/profile', 'UserController@update');
 
+// Delete request to Profile
 $router->delete('api/profile', 'UserController@destroy');
 
 
@@ -54,7 +61,7 @@ $router->group(['prefix' => 'api'], function () use ($router) {
 
     $router->get('goals/{goal_id}/tasks/{task_id}', ['uses' => 'GoalTasksController@showOne']);
     
-    $router->post('goals/{goal_id}/tasks', ['uses' => 'GoalTasksController@create']);
+    $router->post('goals/{goal_id}/tasks', ['uses' => 'GoalTasksController@store']);
 
     $router->put('goals/{goal_id}/tasks/{task_id}', ['uses' => 'GoalTasksController@update']);
 

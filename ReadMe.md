@@ -1,6 +1,9 @@
 # Documentation On GoalGeta  #
 
-# API Authentication Example
+#### Goalgeta is an application that allows users register, login and create goals. Users can set a goal and its due date 
+
+# API Authentication 
+
 ## Controllers
 ### controllers are on App\Http\Controllers.
 

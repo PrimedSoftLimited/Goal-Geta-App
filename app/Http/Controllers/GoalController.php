@@ -50,9 +50,9 @@ class GoalController extends Controller
             'finish'=> 'required',
         ]);
 
-        $generateRandomString = Str::random(60); 
+        // $generateRandomString = Str::random(60); 
 
-        $token = hash('sha256', $generateRandomString);
+        // $token = hash('sha256', $generateRandomString);
 
         $goal = new Goal();
         
@@ -68,7 +68,7 @@ class GoalController extends Controller
         $res['status'] = True;
         $res['data'] = "$goal->title Created Successfully";
         $res['goal'] = $goal;
-        return response()->json($res, 201);
+        return response()->json($res, 200);
 
     }
 

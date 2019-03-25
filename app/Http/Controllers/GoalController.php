@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
 use App\Goal;
+use App\User;
 
 class GoalController extends Controller
 {
@@ -31,11 +32,23 @@ class GoalController extends Controller
     }
 
     // The showOne method checks for a single goal.
-    public function showOne($id)
+    public function showOne($id, Request $request)
     {
+
         $user = Auth::user();
-        
-        return response()->json(Goal::findOrFail($id));;
+
+        $goal = Goal::findOrFail($id);
+
+        if($user->id !== $goal->user_id){
+
+            return response()->json(['error' => 'Unauthorized'], 401);
+
+        } else{
+
+            return response()->json($goal, 201);
+
+        }
+            
     }
 
     // The create method creates a new goal.
@@ -50,9 +63,6 @@ class GoalController extends Controller
             'finish'=> 'required',
         ]);
 
-        // $generateRandomString = Str::random(60); 
-
-        // $token = hash('sha256', $generateRandomString);
 
         $goal = new Goal();
         
@@ -79,19 +89,27 @@ class GoalController extends Controller
 
         $goal = Goal::findOrFail($id);
 
-        
-        $goal->title = $request->input('title');
-        $goal->description = $request->input('description');
-        $goal->completed = $request->input('completed');
-        $goal->start = $request->input('start');
-        $goal->finish = $request->input('finish');
+        if($goal->user_id !== $user->id){
 
-        $goal->save();
+            return response()->json(['error' => 'Unauthorized', 401]);
 
-        $res['status'] = True;
-        $res['data'] = "$goal->title Updated Successfully!";
-        $res['goal'] = $goal;
-        return response()->json($res, 200);
+        } else{
+
+            $goal->title = $request->input('title');
+            $goal->description = $request->input('description');
+            $goal->completed = $request->input('completed');
+            $goal->start = $request->input('start');
+            $goal->finish = $request->input('finish');
+    
+            $goal->save();
+    
+            $res['status'] = True;
+            $res['data'] = "$goal->title Updated Successfully!";
+            $res['goal'] = $goal;
+            return response()->json($res, 200);
+
+        }
+
     }
 
     // The delete method checks if a goal resource exists and deletes it.
@@ -99,9 +117,19 @@ class GoalController extends Controller
     {
         $user = Auth::user();
 
-        Goal::findOrFail($id)->delete();
+        $goal = Goal::findOrFail($id);
 
-        return response('Deleted Successfully', 200);
+        if($user->id === $goal->user_id){
+
+            $goal->delete();
+
+            return response()->json('Deleted Successfully', 200);
+
+        } else {
+
+            return response()->json('Unauthorized!!!', 401);
+
+        }   
 
     }
 }

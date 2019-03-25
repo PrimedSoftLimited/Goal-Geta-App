@@ -65,8 +65,10 @@ class UserController extends Controller
 
         if ($saved) {
             return response()->json(['data' => ['success' => true, 'message' => 'User Updated!', 'user' => $user, 'token' => 'Bearer ' .$token ]], 200);
-        }else{
+        } else{
+            
             return response()->json(['data' => ['error' => false, "message" => 'Error, Try Again!']], 401);
+            
         }
     }
 
@@ -95,5 +97,24 @@ class UserController extends Controller
         }
 
     }
+
+    // public function upload_avatar(Request $request){
+
+    //     $request->validate([
+    //         'avatar' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+    //     ]);
+
+    //     $user = Auth::user();
+
+    //     $avatarName = $user->id.'_avatar'.time().'.'.request()->avatar->getClientOriginalExtension();
+
+    //     $request->avatar->storeAs('avatars',$avatarName);
+
+    //     $user->avatar = $avatarName;
+    //     $user->save();
+
+    //     return response()->json(['Uploaded Successfully']);
+
+    // }
 
 }

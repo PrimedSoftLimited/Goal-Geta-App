@@ -32,6 +32,9 @@ $router->get('api/profile', 'UserController@profile');
 // Put request to Profile
 $router->put('api/profile', 'UserController@update');
 
+// Upload profile image
+// $router->post('api/profile/upload', 'UserController@upload_avatar');
+
 // Delete request to Profile
 $router->delete('api/profile', 'UserController@destroy');
 

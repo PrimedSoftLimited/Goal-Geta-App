@@ -22,6 +22,8 @@ class CreateGoalsTable extends Migration
             $table->date('start');
             $table->date('finish');
             $table->timestamps();
+
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

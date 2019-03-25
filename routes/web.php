@@ -60,9 +60,9 @@ $router->group(['prefix' => 'api'], function () use ($router) {
 
 $router->group(['prefix' => 'api'], function () use ($router) {
 
-    $router->get('goals/{goal_id}/tasks', ['uses' => 'GoalTasksController@showAll']);
+    $router->get('goals/{goal_id}/tasks', ['uses' => 'GoalTasksController@showAllTasks']);
 
-    $router->get('goals/{goal_id}/tasks/{task_id}', ['uses' => 'GoalTasksController@showOne']);
+    $router->get('goals/{goal_id}/tasks/{task_id}', ['uses' => 'GoalTasksController@showOneTask']);
     
     $router->post('goals/{goal_id}/tasks', ['uses' => 'GoalTasksController@store']);
 

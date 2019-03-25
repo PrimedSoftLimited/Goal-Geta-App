@@ -94,6 +94,7 @@ class GoalTasksController extends Controller
             'description' => 'required',
             'start'=> 'required',
             'finish'=> 'required',
+            'completed'=>'required',
         ]);
 
         try {
